@@ -446,3 +446,8 @@ https://github.com/PompanaGoudak/C-MP3-Tag-Reader-Editor
 **Language:** C  
 **Domain:** File Handling and Binary Data Processing
 
+## MP3 Tag Editing Flowchart
+
+The following flowchart explains the complete process of editing MP3 metadata, including reading the ID3 header, finding the selected frame, updating its content, and saving the modified MP3 file.
+
+![MP3 Tag Editing Flowchart](mp3_flowchart.png)
