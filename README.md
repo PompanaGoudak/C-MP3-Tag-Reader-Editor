@@ -445,14 +445,3 @@ https://github.com/PompanaGoudak/C-MP3-Tag-Reader-Editor
 **Project:** MP3 Tag Reader and Editor  
 **Language:** C  
 **Domain:** File Handling and Binary Data Processing
-## 1. Complete Project Flowchart
-
-![Complete Project Flowchart](https://github.com/PompanaGoudak/C-MP3-Tag-Reader-Editor/raw/main/mp3_complete_project_flowchart.png)
-
-## 2. MP3 Tag Viewing Flowchart
-
-![MP3 Tag Viewing Flowchart](https://github.com/PompanaGoudak/C-MP3-Tag-Reader-Editor/raw/main/mp3_tag_view_flowchart.png)
-
-## 3. MP3 Tag Editing Flowchart
-
-![MP3 Tag Editing Flowchart](https://github.com/PompanaGoudak/C-MP3-Tag-Reader-Editor/raw/main/mp3_flowchart.png)
