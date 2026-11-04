@@ -1,3 +1,4 @@
+#include <string.h>
 #include "mp3_header.h"
 
 void view(struct MP3 *mp3)
@@ -23,7 +24,7 @@ void view(struct MP3 *mp3)
         }
 
         tag[4] = '\0';
-        printf("Tag ID: %s\n", tag);
+       
 
         // Read 4 bytes of frame size
         if(fread(&frame_size, 4, 1, mp3->org_mp3_fptr) != 1)
@@ -31,12 +32,10 @@ void view(struct MP3 *mp3)
             printf("ERROR: Failed to read frame size\n");
             break;
         }
-        printf("Frame size before endian conversion: %d\n", frame_size);
-
+        
         // Convert endianess
         toggle_endianess(mp3, &frame_size);
-        printf("Frame size after endian conversion: %d\n", frame_size);
-
+        
 
         // Skip 2 bytes of flags
         if(fseek(mp3->org_mp3_fptr, 2, SEEK_CUR) != 0)
@@ -44,15 +43,16 @@ void view(struct MP3 *mp3)
             printf("ERROR: Failed to skip flags\n");
             break;
         }
-         printf("Tag Name: ");
+         
         // Display tag name
         tag_to_name(tag);
-        printf("\nTag Content: ");
-
+        printf(": ");
+        
         // Display tag data
-        print_tag_data(mp3->org_mp3_fptr, frame_size);
-
+        print_tag_data(mp3->org_mp3_fptr, frame_size, tag);
         printf("\n");
+
+        
     }
 
     fclose(mp3->org_mp3_fptr);
@@ -60,7 +60,8 @@ void view(struct MP3 *mp3)
 }
 
 
-void print_tag_data(FILE *org_mp3_fptr, int frame_size)
+
+void print_tag_data(FILE *org_mp3_fptr, int frame_size, char *tag)
 {
     char data[frame_size + 1];
 
@@ -72,6 +73,26 @@ void print_tag_data(FILE *org_mp3_fptr, int frame_size)
 
     data[frame_size] = '\0';
 
-    // Skip text encoding byte
-    printf("%s", data + 1);
+    if(strcmp(tag, "COMM") == 0)
+    {
+        if(frame_size < 5 || data[0] != 0)
+        {
+            printf("Invalid or unsupported COMM frame\n");
+            return;
+        }
+
+        char *separator = memchr(data + 4, '\0', frame_size - 4);
+
+        if(separator == NULL)
+        {
+            printf("Invalid COMM description\n");
+            return;
+        }
+
+        printf("%s", separator + 1);
+    }
+    else
+    {
+        printf("%s", data + 1);
+    }
 }

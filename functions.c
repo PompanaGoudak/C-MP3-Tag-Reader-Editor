@@ -157,7 +157,7 @@ void tag_to_name(char *tag)
     }
     else if(!strcmp(tag, "TCON"))
     {
-        printf("Content");
+        printf("Genre");
     }
     else if(!strcmp(tag, "COMM"))
     {
