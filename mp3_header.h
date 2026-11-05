@@ -22,6 +22,6 @@ void view(struct MP3 *mp3);
 void edit(struct MP3 *mp3);
 void toggle_endianess(struct MP3 *mp3, int *size);
 void print_tag_data(FILE *org_mp3_fptr, int frame_size, char *tag);
-void tag_to_name(char *);
+void tag_to_name(char *tag);
 
 #endif

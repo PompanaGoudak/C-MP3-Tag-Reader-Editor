@@ -15,6 +15,12 @@ int validate_cla(int argc, char *argv[], struct MP3 *mp3)
 
     if( (strcmp(argv[1], "--help") == 0) )
     {
+        if(argc != 2)
+        {
+            printf("ERROR: Invalid arguments\n");
+            return 0;
+        }
+
 	printf("------------------------------->HELP<-----------------------------------------\n");
 	printf("1. -v -> to view mp3 file contents\n");
 	printf("2. -e -> to edit mp3 file contents\n");
@@ -22,7 +28,7 @@ int validate_cla(int argc, char *argv[], struct MP3 *mp3)
 	printf("\t\t2.2. -a -> to edit artist name\n");
 	printf("\t\t2.3. -A -> to edit album name\n");
 	printf("\t\t2.4. -y -> to edit year\n");
-	printf("\t\t2.5. -m -> to edit content\n");
+	printf("\t\t2.5. -m -> to edit content/Genre\n");
 	printf("\t\t2.6. -c -> to edit comment\n");
 	printf("------------------------------------------------------------------------------\n");
 	return 0; 
@@ -124,8 +130,11 @@ if(strcmp(argv[1], "-e") == 0)
 }
 
 
+
 void toggle_endianess(struct MP3 *mp3, int *size)
 {
+    (void)mp3;
+
     unsigned char *ptr = (unsigned char *)size;
     unsigned char temp;
 
@@ -137,29 +146,30 @@ void toggle_endianess(struct MP3 *mp3, int *size)
     ptr[1] = ptr[2];
     ptr[2] = temp;
 }
+
 void tag_to_name(char *tag)
 {
-    if(!strcmp(tag, "TIT2"))
+    if(strcmp(tag, "TIT2") == 0)
     {
         printf("Song Title");
     }
-    else if(!strcmp(tag, "TPE1"))
+    else if(strcmp(tag, "TPE1") == 0)
     {
         printf("Artist Name");
     }
-    else if(!strcmp(tag, "TALB"))
+    else if(strcmp(tag, "TALB") == 0)
     {
         printf("Album Name");
     }
-    else if(!strcmp(tag, "TYER"))
+    else if(strcmp(tag, "TYER") == 0)
     {
         printf("Year");
     }
-    else if(!strcmp(tag, "TCON"))
+    else if(strcmp(tag, "TCON") == 0)
     {
         printf("Genre");
     }
-    else if(!strcmp(tag, "COMM"))
+    else if(strcmp(tag, "COMM") == 0)
     {
         printf("Comment");
     }
@@ -168,3 +178,4 @@ void tag_to_name(char *tag)
         printf("Unknown Tag");
     }
 }
+        

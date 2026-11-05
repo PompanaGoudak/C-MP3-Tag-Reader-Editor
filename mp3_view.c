@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "mp3_header.h"
 
 void view(struct MP3 *mp3)
@@ -10,7 +11,12 @@ void view(struct MP3 *mp3)
 
 
     // Skip 10 bytes of ID3 header
-    fseek(mp3->org_mp3_fptr, 10, SEEK_SET);
+    if(fseek(mp3->org_mp3_fptr, 10, SEEK_SET) != 0)
+    {
+        printf("ERROR: Unable to skip ID3 header\n");
+        goto cleanup;
+    }
+
 
     printf("\n----------- MP3 DETAILS -----------\n");
 
@@ -24,6 +30,7 @@ void view(struct MP3 *mp3)
         }
 
         tag[4] = '\0';
+        
        
 
         // Read 4 bytes of frame size
@@ -54,8 +61,13 @@ void view(struct MP3 *mp3)
 
         
     }
+   cleanup:
 
-    fclose(mp3->org_mp3_fptr);
+    if(mp3->org_mp3_fptr != NULL)
+    {
+        fclose(mp3->org_mp3_fptr);
+        mp3->org_mp3_fptr = NULL;
+    }
     printf("\n========== VIEW FUNCTION ENDED ==========\n");
 }
 
@@ -65,7 +77,7 @@ void print_tag_data(FILE *org_mp3_fptr, int frame_size, char *tag)
 {
     char data[frame_size + 1];
 
-    if(fread(data, 1, frame_size, org_mp3_fptr) != frame_size)
+    if(fread(data, 1, frame_size, org_mp3_fptr) != (size_t)frame_size)
     {
         printf("ERROR: Failed to read tag data\n");
         return;
